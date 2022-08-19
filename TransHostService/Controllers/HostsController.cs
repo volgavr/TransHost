@@ -49,8 +49,7 @@ namespace TransHostService.Controllers
             {
                 _logger.Log(LogLevel.Error, ex, "Exception thrown");
                 return BadRequest();
-            }
-            
+            }          
             
         }
     }    

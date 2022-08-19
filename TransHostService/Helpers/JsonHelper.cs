@@ -3,6 +3,19 @@ using TransHostService.Models;
 
 namespace TransHostService.Helpers
 {
+
+    public struct GeoPoint
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
+        public static double DistanceBetween(GeoPoint p1, GeoPoint p2, DistanceUnit unit = DistanceUnit.Km)
+        {
+            var model = new GlobeModelSimple(unit);
+            return model.Distance(p1.Latitude, p1.Longitude, p2.Latitude, p2.Longitude);
+        }
+    }
+
     public static class JsonHelper
     {
         public static async Task<GeoPoint> GetAirportCoordinatesAsync(HttpClient client, string iataCode)

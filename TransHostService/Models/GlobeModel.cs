@@ -1,10 +1,27 @@
 ﻿namespace TransHostService.Models
 {
     public enum DistanceUnit { Km, Mile }
-    public class Geography
+    
+    public abstract class GlobeModel
     {
-        public static double Distance(double lat1, double lon1, double lat2, double lon2, DistanceUnit unit) {
-            return Distance(lat1, lon1, lat2, lon2, unit == DistanceUnit.Mile);        
+        public abstract double Distance(double lat1, double lon1, double lat2, double lon2);        
+    }
+
+
+    public class GlobeModelSimple : GlobeModel
+    {
+        readonly DistanceUnit lenUnit = DistanceUnit.Km;
+        public GlobeModelSimple()
+        {
+        }
+        public GlobeModelSimple(DistanceUnit unit)
+        {
+            lenUnit = unit;
+        }
+
+        public override double Distance(double lat1, double lon1, double lat2, double lon2)
+        {
+            return Distance(lat1, lon1, lat2, lon2, lenUnit == DistanceUnit.Mile);
         }
         private static double Distance(double lat1, double lon1, double lat2, double lon2, bool inMiles)
         {
@@ -38,16 +55,6 @@
         {
             return (rad / Math.PI * 180.0);
         }
-    }
-
-    public struct GeoPoint
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-
-        public static double DistanceBetween(GeoPoint p1, GeoPoint p2, DistanceUnit unit = DistanceUnit.Km)
-        {
-            return Geography.Distance(p1.Latitude, p1.Longitude, p2.Latitude, p2.Longitude, unit);
-        }
-    }     
+        
+    }   
 }
